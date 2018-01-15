@@ -1,0 +1,65 @@
+<html>
+	<head>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
+		<script src='https://code.responsivevoice.org/responsivevoice.js'></script>
+		<script src="https://cdn.webrtc-experiment.com/Translator.js"> </script>
+
+	</head>
+	<script>
+if (annyang) {
+
+	  var translateJapanese = function(tag, language) {
+		  language = language.toLowerCase();
+		  tag = tag.toLowerCase();
+
+		  console.log(language);
+		  console.log(tag);
+
+		  var lang;
+		  var speaker;
+		  if (language === 'japanese') {
+			  lang = 'ja';
+			  speaker = 'Japanese Female';
+		  } else if (language === 'french') {
+			  lang = 'fr';
+			  speaker = 'French Female';
+		  } else {
+			  lang = 'ru';
+			  speaker = 'Russian Female';
+		  };
+		  console.log("Using lang = " + lang);
+		  var config = {
+			  from: 'en',
+			  to: lang,
+			  api_key: 'AIzaSyDTw2INUzgG5bTveleN1NUa-0tuwi_5bBE',
+			  callback: function (translatedText) {
+				  responsiveVoice.speak(translatedText, speaker);
+			  }
+		  };
+		  var translator = new Translator();
+		  translator.translateLanguage(tag, config);
+	  };
+
+	  var commands = {
+		      'translate *tag (to) :language': translateJapanese,
+		      'order (me) a pizza': function() {
+				responsiveVoice.speak("Muhammad.  Get me a pizza.");
+		      },
+		      "(mirror mirror on the wall) who's the fairest of them all": function() {
+				responsiveVoice.speak("you. are.");
+		      },
+		      'should i buy sneakers': function() {
+				responsiveVoice.speak("hella no.");
+		      }
+	  };
+
+
+	  responsiveVoice.setDefaultVoice("US English Female");
+	  // Add our commands to annyang
+	  annyang.addCommands(commands);
+
+	  // Start listening. You can call this here, or attach this call to an event, button, etc.
+	  annyang.start();
+}
+	</script>
+</html>
